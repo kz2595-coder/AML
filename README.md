@@ -27,9 +27,6 @@ The pricing algorithm uses:
 ---
 
 ## Try the demo
-
-**Standalone analytics page** (algorithm explanation, model evaluation, formula derivations): [https://sherly-tuo.github.io/AML/analytics.html](https://sherly-tuo.github.io/AML/analytics.html)
-
 **Live app demo:** https://aml-sandy.vercel.app
 
 1. Open the link → click **Enter demo** (no account needed)
