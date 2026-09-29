@@ -4,7 +4,7 @@
 
 ---
 
-## Research Question
+## Research Question:
 
 > **Can ML-based dynamic pricing in peer-to-peer renewable energy markets systematically improve household seller revenue compared to fixed grid feed-in tariffs (FiT), and under what demand and weather conditions is the gain largest?**
 
