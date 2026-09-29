@@ -1,60 +1,82 @@
-# VoltShare — AML Final Project
+# ⚡ VoltShare
 
-**Columbia SIPA · Applying Machine Learning · Prof. Daniel Björkegren · May 2026**
+**ML-Based Peer-to-Peer Renewable Energy Pricing Platform**
 
----
+VoltShare is a collaborative machine learning and full-stack product project that explores dynamic pricing for peer-to-peer renewable energy trading.
 
-## Research Question:
+The platform combines a machine-learning pricing pipeline with an interactive web application, allowing users to explore how energy prices can be estimated and optimized based on market and transaction conditions.
 
-> **Can ML-based dynamic pricing in peer-to-peer renewable energy markets systematically improve household seller revenue compared to fixed grid feed-in tariffs (FiT), and under what demand and weather conditions is the gain largest?**
-
-Using Victoria (VIC1) electricity market data and Melbourne solar generation records, we build an OLS baseline and a Random Forest demand model, then run a grid-search price optimiser to show that ML-recommended prices outperform the FiT baseline in expected profit — with the largest gains during high-demand, low-supply hours. This has direct policy relevance: if P2P pricing incentives are strong enough, households are more likely to invest in rooftop solar and actively participate in local energy sharing.
-
-The full algorithm explanation, data pipeline, model evaluation metrics (OLS vs. Random Forest R², RMSE, MAE), and pricing formula derivations are in the standalone analytics page linked below.
+🌐 **Live Demo:** https://aml-beta.vercel.app/
 
 ---
 
-## What VoltShare is
+## 🚀 What We Built
 
-VoltShare is a peer-to-peer renewable energy trading prototype that uses OLS and Random Forest demand modelling with a grid-search price optimiser to recommend listing prices for surplus solar energy. We also built a simulated app to show how the ML pricing output would work inside a real marketplace — users can list surplus energy, browse neighbour listings, and track activity and wallet balance.
+VoltShare combines machine learning, pricing optimization, and product development into an end-to-end prototype.
 
-The pricing algorithm uses:
-1. Hourly demand features from VIC1 market data (OLS + Random Forest)
-2. Hourly solar supply proxy from Melbourne solar generation records
-3. Historical weather from Open-Meteo (temperature, cloud cover, radiation)
-4. Grid search over 48 candidate prices to maximise expected profit relative to the FiT opportunity cost
+The project includes:
 
----
-
-## Try the demo
-**Live app demo:** https://aml-sandy.vercel.app
-
-1. Open the link → click **Enter demo** (no account needed)
-2. Try the product flow:
-   - **Sell** — enter your surplus kWh and listing hour → get an ML-optimised price recommendation
-   - **Buy** — browse active listings from neighbours
-   - **Activity** — view your pricing runs and purchase history
-   - **Wallet** — check balance; try promo code `AGRADEPROJECT` for a demo credit
+- **Machine Learning Pipeline** — Python-based data preprocessing, feature engineering, model training, and evaluation
+- **Pricing Engine** — ML-assisted price estimation and grid-search optimization
+- **Interactive Web App** — React + TypeScript interface for exploring pricing scenarios
+- **Analytics Dashboard** — visualization of pricing and transaction insights
+- **Backend Integration** — optional Supabase-based persistence and authentication
+- **Production Deployment** — automated deployment through GitHub and Vercel
 
 ---
 
-## Run locally
+## 🤖 Machine Learning
+
+The pricing pipeline explores multiple approaches to estimating renewable energy transaction prices, including:
+
+- Ordinary Least Squares (OLS)
+- Random Forest regression
+- Feature engineering and model evaluation
+- Grid-search-based pricing optimization
+
+The ML workflow is documented in the `notebooks/` directory.
+
+---
+
+## 🛠 Tech Stack
+
+**Machine Learning & Data**
+
+`Python` · `Pandas` · `Scikit-learn` · `Jupyter`
+
+**Frontend**
+
+`React` · `TypeScript` · `Vite` · `Tailwind CSS`
+
+**Backend & Infrastructure**
+
+`Supabase` · `Vercel` · `GitHub Actions`
+
+---
+
+## 👥 Project Collaboration
+
+VoltShare was developed as a collaborative project.
+
+My contributions included work across the **machine-learning workflow, product development, and deployment**, including:
+
+- Developing and testing parts of the ML-based pricing workflow
+- Translating model outputs into an interactive product experience
+- Supporting frontend/product implementation and iteration
+- Integrating the technical workflow into an end-to-end demo
+- Deploying and maintaining the web application
+
+This repository is maintained as my version of the project for continued development and experimentation.
+
+---
+
+## 💻 Run Locally
+
+Clone the repository:
 
 ```bash
-git clone https://github.com/Sherly-Tuo/AML.git
+git clone https://github.com/kz2595-coder/AML.git
 cd AML
-npm install
-npm run dev
-# App runs at http://localhost:4173
-```
-
-No environment variables are required to run the demo — the app works fully without Supabase (all state is local). To enable cloud sync, add `.env.local`:
-
-```
-VITE_SUPABASE_URL=...
-VITE_SUPABASE_ANON_KEY=...
-```
-
 ---
 
 ## Run the ML notebook
