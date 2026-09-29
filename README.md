@@ -2,71 +2,99 @@
 
 **ML-Based Peer-to-Peer Renewable Energy Pricing Platform**
 
-VoltShare is a collaborative machine learning and full-stack product project that explores dynamic pricing for peer-to-peer renewable energy trading.
+VoltShare is a machine-learning-powered platform for exploring dynamic pricing in peer-to-peer (P2P) renewable energy trading.
 
-The platform combines a machine-learning pricing pipeline with an interactive web application, allowing users to explore how energy prices can be estimated and optimized based on market and transaction conditions.
+The project combines an end-to-end ML pricing pipeline with an interactive web application. It uses electricity demand, solar generation, and weather data to estimate market conditions, generate pricing recommendations, and simulate P2P energy transactions.
 
 🌐 **Live Demo:** https://aml-beta.vercel.app/
 
 ---
 
-## 🚀 What We Built
+## 🚀 Overview
 
-VoltShare combines machine learning, pricing optimization, and product development into an end-to-end prototype.
+VoltShare connects machine learning with an interactive energy marketplace prototype.
 
-The project includes:
+The platform includes:
 
-- **Machine Learning Pipeline** — Python-based data preprocessing, feature engineering, model training, and evaluation
-- **Pricing Engine** — ML-assisted price estimation and grid-search optimization
-- **Interactive Web App** — React + TypeScript interface for exploring pricing scenarios
-- **Analytics Dashboard** — visualization of pricing and transaction insights
-- **Backend Integration** — optional Supabase-based persistence and authentication
-- **Production Deployment** — automated deployment through GitHub and Vercel
+- **ML Pricing Pipeline** — Python-based preprocessing, feature engineering, model training, and evaluation
+- **Dynamic Pricing Engine** — OLS and Random Forest estimation combined with grid-search pricing optimization
+- **P2P Marketplace** — interactive workflow for listing, buying, and selling renewable energy
+- **Pricing Recommendation UI** — model-driven pricing suggestions for energy sellers
+- **Analytics Dashboard** — model performance, pricing logic, and market insights
+- **Weather Integration** — historical weather alignment through Open-Meteo
+- **Persistent Application State** — Zustand + localStorage, with optional Supabase integration
+- **Production Deployment** — Vite/React application deployed through Vercel
 
 ---
 
-## 🤖 Machine Learning
+## 🤖 Machine Learning & Pricing
 
-The pricing pipeline explores multiple approaches to estimating renewable energy transaction prices, including:
+The pricing pipeline evaluates multiple approaches to predicting electricity market conditions and generating P2P pricing recommendations.
 
-- Ordinary Least Squares (OLS)
-- Random Forest regression
-- Feature engineering and model evaluation
-- Grid-search-based pricing optimization
+### Models
 
-The ML workflow is documented in the `notebooks/` directory.
+The current implementation includes:
+
+- **Ordinary Least Squares (OLS)** as a baseline model
+- **Random Forest Regression** for nonlinear demand-price relationships
+- **Weather feature ablation** to evaluate the incremental value of meteorological data
+- **Grid-search pricing optimization** for generating recommended transaction prices
+
+The full Python workflow is available at:
+
+```text
+notebooks/voltshare_pricing_ml.ipynb
+```
+
+### Model Performance
+
+| Model | RMSE | MAE | R² |
+|---|---:|---:|---:|
+| OLS baseline | 0.3405 | 0.2211 | 0.8990 |
+| Random Forest — no weather | 0.2892 | 0.1798 | 0.9272 |
+| Random Forest — with weather | 0.2933 | 0.1822 | 0.9251 |
+
+Random Forest improves predictive performance over the OLS baseline in the current dataset.
+
+Weather variables did not improve out-of-sample accuracy with the current single-location weather proxy. This limitation is documented in the notebook and Analytics Dashboard and provides a direction for future model development.
+
+---
+
+## 📊 Data Sources
+
+| Dataset | Source | Role |
+|---|---|---|
+| VIC1 electricity demand & price | AEMO 5-minute dispatch data | Demand and price modeling |
+| Solar generation records | APVI / ARENA open data | Renewable supply proxy |
+| Melbourne historical weather | Open-Meteo Archive API | Weather features and supply adjustment |
+
+The repository includes the processed datasets required to reproduce the current ML workflow:
+
+```text
+src/data/price_and_demand_vic1.csv
+src/data/Solar_Energy_Generation.csv
+src/data/open_meteo_melbourne_hourly.csv
+```
 
 ---
 
 ## 🛠 Tech Stack
 
-**Machine Learning & Data**
+### Machine Learning & Data
 
-`Python` · `Pandas` · `Scikit-learn` · `Jupyter`
+`Python` · `Pandas` · `NumPy` · `Scikit-learn` · `Statsmodels` · `Matplotlib` · `Jupyter`
 
-**Frontend**
+### Frontend
 
 `React` · `TypeScript` · `Vite` · `Tailwind CSS`
 
-**Backend & Infrastructure**
+### Application State & Backend
 
-`Supabase` · `Vercel` · `GitHub Actions`
+`Zustand` · `localStorage` · `Supabase`
 
----
+### Infrastructure
 
-## 👥 Project Collaboration
-
-VoltShare was developed as a collaborative project.
-
-My contributions included work across the **machine-learning workflow, product development, and deployment**, including:
-
-- Developing and testing parts of the ML-based pricing workflow
-- Translating model outputs into an interactive product experience
-- Supporting frontend/product implementation and iteration
-- Integrating the technical workflow into an end-to-end demo
-- Deploying and maintaining the web application
-
-This repository is maintained as my version of the project for continued development and experimentation.
+`Vercel` · `GitHub`
 
 ---
 
@@ -77,74 +105,125 @@ Clone the repository:
 ```bash
 git clone https://github.com/kz2595-coder/AML.git
 cd AML
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Create a production build:
+
+```bash
+npm run build
+```
+
+Supabase is optional for the demo. Core application functionality can run with locally persisted state.
+
 ---
 
-## Run the ML notebook
+## 🧪 Run the ML Notebook
 
-The full Python ML pipeline (OLS, Random Forest, weather ablation, grid-search pricing) is in:
+The complete Python ML pipeline is located at:
 
-```
+```text
 notebooks/voltshare_pricing_ml.ipynb
 ```
 
-Requirements: `scikit-learn`, `pandas`, `numpy`, `statsmodels`, `matplotlib` (auto-installed on first run).
+The notebook covers:
 
-Data files required (already in repo):
-- `src/data/price_and_demand_vic1.csv` — VIC1 half-hourly demand & price
-- `src/data/Solar_Energy_Generation.csv` — Melbourne solar generation
-- `src/data/open_meteo_melbourne_hourly.csv` — historical weather cache
+1. Data loading and preprocessing
+2. Feature engineering
+3. OLS baseline estimation
+4. Random Forest training
+5. Model evaluation
+6. Weather-feature ablation
+7. Grid-search pricing optimization
+
+Main Python dependencies:
+
+```text
+scikit-learn
+pandas
+numpy
+statsmodels
+matplotlib
+```
 
 ---
 
-## Project structure
+## 📂 Project Structure
 
-```
+```text
 src/
-  pages/
-    AnalyticsDashboard.tsx   # Algorithm explanation + charts + model evaluation
-    SellEnergy.tsx           # ML pricing recommendation UI
-    Marketplace.tsx          # P2P listings (buy)
-    ActivityScreen.tsx       # Unified history feed
-    WalletScreen.tsx         # Balance + transactions
-  services/
-    aiService.ts             # Core pricing algorithm: OLS, Random Forest, grid search
-    weatherService.ts        # Open-Meteo weather alignment
-  store/
-    index.ts                 # Zustand state (Zustand v6, localStorage-persisted)
-  data/
-    vic1DemandBids.ts        # Pre-processed VIC1 hourly demand bids
-    solarSupplyReports.ts    # Pre-processed hourly solar supply reference
+├── pages/
+│   ├── AnalyticsDashboard.tsx   # Model explanation, charts, and evaluation
+│   ├── SellEnergy.tsx           # ML pricing recommendation interface
+│   ├── Marketplace.tsx          # P2P energy marketplace
+│   ├── ActivityScreen.tsx       # Transaction and activity history
+│   └── WalletScreen.tsx         # Balance and transaction management
+│
+├── services/
+│   ├── aiService.ts             # OLS, Random Forest, and pricing optimization
+│   └── weatherService.ts        # Open-Meteo weather integration
+│
+├── store/
+│   └── index.ts                 # Zustand state with localStorage persistence
+│
+└── data/
+    ├── vic1DemandBids.ts         # Preprocessed VIC1 demand data
+    └── solarSupplyReports.ts    # Preprocessed solar supply data
+
 notebooks/
-  voltshare_pricing_ml.ipynb # Full Python ML pipeline
+└── voltshare_pricing_ml.ipynb   # End-to-end Python ML pipeline
+
+supabase/                         # Optional backend configuration
 ```
 
 ---
 
-## Data sources
+## 👥 Collaboration & My Contributions
 
-| Dataset | Source | Use |
-|---------|--------|-----|
-| VIC1 electricity demand & price | AEMO 5-min dispatch data | Demand model training |
-| Solar generation records | APVI / ARENA open data | Supply proxy |
-| Melbourne historical weather | Open-Meteo archive API | Weather features + supply adjustment |
+VoltShare was developed as a collaborative machine learning and product development project.
 
----
+My work contributed across the **ML workflow, product implementation, and end-to-end deployment**, including:
 
-## Model performance (from notebook)
+- Developing and testing components of the ML-based pricing workflow
+- Working with electricity-market and renewable-energy datasets
+- Translating model outputs into an interactive pricing experience
+- Supporting product and frontend implementation
+- Integrating the ML workflow with the end-to-end product demo
+- Deploying and maintaining the web application
 
-| Model | RMSE | MAE | R² |
-|-------|------|-----|----|
-| OLS baseline | 0.3405 | 0.2211 | 0.8990 |
-| Random Forest (no weather) | 0.2892 | 0.1798 | 0.9272 |
-| Random Forest (with weather) | 0.2933 | 0.1822 | 0.9251 |
-
-Weather features did not significantly improve test-set accuracy with the current single-location proxy — this is discussed in the notebook and the Analytics Dashboard as a limitation and direction for future work.
+This repository is maintained as my version of the collaborative project for continued development and experimentation.
 
 ---
 
-## Tech stack
+## 🔭 Limitations & Future Development
 
-- **Frontend**: Vite + React + TypeScript + Tailwind CSS v3
-- **State**: Zustand with localStorage persistence
-- **Backend/Auth/DB**: Supabase (optional for demo)
-- **Deployment**: Vercel
+The current version is a research and product prototype rather than a production electricity trading system.
+
+Potential extensions include:
+
+- Real-time AEMO market-data ingestion
+- Multi-location weather and solar-generation features
+- Time-series and more advanced pricing models
+- API-based model serving
+- Model explainability and uncertainty estimates
+- More realistic P2P marketplace simulations
+- Production-grade authentication and transaction infrastructure
+
+---
+
+## 📌 Project Status
+
+VoltShare is currently maintained as an experimental ML + product prototype.
+
+The live application demonstrates how a machine-learning workflow can be translated from model experimentation into an interactive user-facing product.
